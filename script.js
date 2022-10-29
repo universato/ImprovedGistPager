@@ -23,7 +23,7 @@ function addPager(){
   var pageCount = 0;
   var pager = document.getElementsByClassName('pagination');
   var pagerHtml = '';
-  var userName = document.title.replace(/'s Gists/, '');
+  var userName = document.title.replace(/’s gists/, '');
   var currentPageNumber = 0;
   var pagerElementCount = 0;
   var anchorElements = [];
@@ -43,7 +43,7 @@ function addPager(){
    * If counter doesn't exists, exit.
    */
 
-  if(document.getElementsByClassName('counter').length < 1){
+  if(document.getElementsByClassName('Counter').length < 1){
     return false;
   }
 
@@ -51,11 +51,11 @@ function addPager(){
    * Set gists count.
    */
   if(window.location.toString().match(/forked/)){
-    gistsCount = document.getElementsByClassName('counter')[1].childNodes[0].textContent.replace(/,/, '');
+    gistsCount = document.getElementsByClassName('Counter')[1].childNodes[0].textContent.replace(/,/, '');
   }else if(window.location.toString().match(/starred/)){
-    gistsCount = document.getElementsByClassName('counter')[2].childNodes[0].textContent.replace(/,/, '');
+    gistsCount = document.getElementsByClassName('Counter')[2].childNodes[0].textContent.replace(/,/, '');
   }else{
-    gistsCount = document.getElementsByClassName('counter')[0].childNodes[0].textContent.replace(/,/, '');
+    gistsCount = document.getElementsByClassName('Counter')[0].childNodes[0].textContent.replace(/,/, '');
   }
 
   /**
@@ -86,7 +86,7 @@ function addPager(){
   }
 
   /**
-   * Disable first button when first page is displayed. 
+   * Disable first button when first page is displayed.
    */
   if(currentPageNumber == null || currentPageNumber <= 1){
     pager[0].innerHTML = '<span id="pager_first" class="disabled">First</span>';
@@ -121,9 +121,9 @@ function addPager(){
    * Set start number.
    */
   if(currentPageNumber < Math.floor(pagerElementCount / 2) + 2){
-    startNumber = 1; 
+    startNumber = 1;
   }else if(currentPageNumber > pageCount - Math.floor(pagerElementCount / 2)){
-    startNumber = pageCount - (pagerElementCount - 1); 
+    startNumber = pageCount - (pagerElementCount - 1);
   }else{
     startNumber = currentPageNumber - Math.floor(pagerElementCount / 2);
   }
