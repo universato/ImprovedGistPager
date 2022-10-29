@@ -30,7 +30,7 @@ function addPager(){
 
   let gistsCount = -1;
   if(['discover', 'forked', 'starred'].includes(firstPath)){
-      gistsCount = displayCount * 100;
+      gistsCount = displayCount * 100; // 1000 gits = 10 gists/page * 100 page
   }else if(secondPath === '/forked'){
       gistsCount = counters[1].innerText
   }else if(secondPath === '/starred'){
