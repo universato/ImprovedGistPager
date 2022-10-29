@@ -63,7 +63,7 @@ function addPager(){
   pager.innerHTML = firstHTML + pager.innerHTML + lastHTML;
 
   const startNumber = Math.max(1,
-                                Math.min(currentPageNumber - (maxPagerElementCount - 1) / 2,
+                                Math.min(currentPageNumber - Math.ceil((maxPagerElementCount - 1) / 2),
                                         pageCount - maxPagerElementCount + 1
                                         )
                               );
