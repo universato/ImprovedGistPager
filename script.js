@@ -1,3 +1,14 @@
+// ==UserScript==
+// @name         gist_trun_page_by_left_and
+// @namespace    https://greasyfork.org/ja/users/570127
+// @version      0.1.0
+// @description  You can move one page by pressing the left and right key. 十字キーの左右で1ページ移動できます。
+// @author       universato
+// @license      MIT
+// @match        https://gist.github.com/*
+// @supportURL   https://twitter.com/universato
+// ==/UserScript==
+
 window.onload = function(){
   const options = {
       subtree:       true,
