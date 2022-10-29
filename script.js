@@ -87,6 +87,7 @@ function addPager(){
   return true;
 }
 
+// Add shortcuts to turn page by left and right kye
 (function() {
   document.addEventListener('keydown', function (event) {
       const activeTagName = document.activeElement.tagName;
