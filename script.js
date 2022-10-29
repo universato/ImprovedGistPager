@@ -18,7 +18,7 @@ function addPager(){
 
   const displayCount = 10; // the max number of gits per page
   const pager = document.getElementsByClassName('pagination')[0];
-  const firstPath  = location.pathname.split('/')[1]
+  const firstPath = location.pathname.split('/')[1]
   const secondPath = "/" + (location.pathname.split('/')[2] || '')
   const counters = document.getElementsByClassName('Counter');
 
@@ -66,6 +66,7 @@ function addPager(){
 
 
   // Insert pager elements
+  let anchorElement;
   for (let pagerIndex = startNumber + pagerElementCount - 1; pagerIndex >= startNumber; pagerIndex--){
       if(pagerIndex === currentPageNumber){
           anchorElement = document.createElement('span');
@@ -81,3 +82,19 @@ function addPager(){
 
   return true;
 }
+
+(function() {
+  document.addEventListener('keydown', function (event) {
+      const activeTagName = document.activeElement.tagName;
+      if (['TEXTAREA', 'INPUT'].includes(activeTagName)){ return false; }
+
+      const pager = document.getElementsByClassName('pagination')[0];
+      if(!pager){ return false; }
+      for (let element of pager.children) {
+          if(element.nodeName === 'A') {
+              if(event.key === 'ArrowLeft' && element.innerText === 'Newer'){ element.click(); }
+              if(event.key === 'ArrowRight' && element.innerText === 'Older'){ element.click(); }
+          }
+      }
+  }, false);
+})();
