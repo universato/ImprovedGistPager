@@ -1,11 +1,10 @@
 {
-"update_url": "https://clients2.google.com/service/update2/crx",
-  "name": "ImproveGistPager",
-  "version": "0.0.1",
+  "name": "ImprovedGistPager",
+  "version": "0.1.0",
   "manifest_version": 2,
   "description": "Improve Gist pager.",
-  "author": "Toshinari Suzuki",
-  "homepage_url": "http://suzuki.toshinari.jp",
+  "author": "universato",
+  "homepage_url": "https://github.com/universato/",
   "icons": {
     "16": "images/16.png",
     "48": "images/48.png",

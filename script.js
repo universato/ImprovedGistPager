@@ -1,153 +1,83 @@
 window.onload = function(){
-  var options = {subtree: true, childList: true, characterData: true, attributes: true};
-  var observer = new MutationObserver(function(mutations){
-    if(!isInserted()){
-      addPager();
-    }
+  const options = {
+      subtree:       true,
+      childList:     true,
+      characterData: true,
+      attributes:    true
+  };
+  const observer = new MutationObserver(function(_mutations){
+      if(!document.getElementById('pager_last')){ addPager(); }
   });
-
   observer.observe(document.body, options);
+
   addPager();
 }
 
-function isInserted(){
-  if(document.getElementById('pager_last')){
-    return true;
-  }
-  return false;
-}
-
 function addPager(){
-  var displayCount = 10;
-  var gistsCount = 0;
-  var pageCount = 0;
-  var pager = document.getElementsByClassName('pagination');
-  var pagerHtml = '';
-  var userName = document.title.replace(/’s gists/, '');
-  var currentPageNumber = 0;
-  var pagerElementCount = 0;
-  var anchorElements = [];
-  var pagerCounter = 1;
-  var startNumber = 0;
+  const maxPagerElementCount = 9; // Odd
 
-  /**
-   * If pager doesn't exists, exit.
-   */
-  if(!pager[0]){
-    return false;
+  const displayCount = 10; // the max number of gits per page
+  const pager = document.getElementsByClassName('pagination')[0];
+  const firstPath  = location.pathname.split('/')[1]
+  const secondPath = "/" + (location.pathname.split('/')[2] || '')
+  const counters = document.getElementsByClassName('Counter');
+
+  if(!pager){ return false; }
+
+  let gistsCount = -1;
+  if(['discover', 'forked', 'starred'].includes(firstPath)){
+      gistsCount = displayCount * 100;
+  }else if(secondPath === '/forked'){
+      gistsCount = counters[1].innerText
+  }else if(secondPath === '/starred'){
+      gistsCount = counters[2].innerText
   }else{
-    pagerHtml = pager[0].innerHTML;
+      gistsCount = counters[0].innerText;
   }
 
-  /**
-   * If counter doesn't exists, exit.
-   */
+  const pageCount = Math.ceil(gistsCount / displayCount);
+  const pagerElementCount = Math.min(pageCount, maxPagerElementCount);
 
-  if(document.getElementsByClassName('Counter').length < 1){
-    return false;
-  }
+  const params = new URLSearchParams(location.search)
+  const currentPageNumber = Number(params.get('page') || 1);
 
-  /**
-   * Set gists count.
-   */
-  if(window.location.toString().match(/forked/)){
-    gistsCount = document.getElementsByClassName('Counter')[1].childNodes[0].textContent.replace(/,/, '');
-  }else if(window.location.toString().match(/starred/)){
-    gistsCount = document.getElementsByClassName('Counter')[2].childNodes[0].textContent.replace(/,/, '');
+  let firstHTML = '';
+  if(currentPageNumber <= 1){
+      firstHTML = '<span id="pager_first" class="disabled">First</span>';
   }else{
-    gistsCount = document.getElementsByClassName('Counter')[0].childNodes[0].textContent.replace(/,/, '');
+      firstHTML = `<a id="pager_first" href="${location.pathname}?${params}">First</a>`;
   }
 
-  /**
-   * Set number of pages.
-   */
-  if(gistsCount % displayCount == 0){
-    pageCount = gistsCount / displayCount;
+  let lastHTML = '';
+  if(currentPageNumber === pageCount || pageCount <= 1){
+      lastHTML = '<span id="pager_last" class="disabled">Last</span>';
   }else{
-    pageCount = Math.floor(gistsCount / displayCount) + 1;
+      params.set('page', pageCount);
+      lastHTML = `<a id="pager_last" href="${location.pathname}?${params}">Last</a>`;
   }
 
-  /**
-   * Set number of pager elements.
-   */
-  if(pageCount > 9){
-    pagerElementCount = 9;
-  }else{
-    pagerElementCount = pageCount;
-  }
+  pager.innerHTML = firstHTML + pager.innerHTML + lastHTML;
 
-  /**
-   * If page is not set, set 1.
-   */
-  if(window.location.search.match(/\?page=([0-9]+)/)){
-    currentPageNumber = parseInt(window.location.search.match(/\?page=([0-9]+)/)[1]);
-  }else{
-    currentPageNumber = 1;
-  }
+  const startNumber = Math.max(1,
+                                Math.min(currentPageNumber - (maxPagerElementCount - 1) / 2,
+                                        pageCount - maxPagerElementCount + 1
+                                        )
+                              );
 
-  /**
-   * Disable first button when first page is displayed.
-   */
-  if(currentPageNumber == null || currentPageNumber <= 1){
-    pager[0].innerHTML = '<span id="pager_first" class="disabled">First</span>';
-  }else{
-    if(window.location.toString().match(/forked/)){
-      pager[0].innerHTML = '<a id="pager_first" href="/' + userName + '/forked">First</a>';
-    }else if(window.location.toString().match(/starred/)){
-      pager[0].innerHTML = '<a id="pager_first" href="/' + userName + '/starred">First</a>';
-    }else{
-      pager[0].innerHTML = '<a id="pager_first" href="/' + userName + '">First</a>';
-    }
-  }
 
-  pager[0].innerHTML += pagerHtml;
-
-  /**
-   * Disable last button when last page is displayed.
-   */
-  if(currentPageNumber == pageCount || pageCount == null || pageCount <= 1){
-    pager[0].innerHTML += '<span id="pager_last" class="disabled">Last</span>';
-  }else{
-    if(window.location.toString().match(/forked/)){
-      pager[0].innerHTML += '<a id="pager_last" href="/' + userName + '/forked?page=' + pageCount + '">Last</a>';
-    }else if(window.location.toString().match(/starred/)){
-      pager[0].innerHTML += '<a id="pager_last" href="/' + userName + '/starred?page=' + pageCount + '">Last</a>';
-    }else{
-      pager[0].innerHTML += '<a id="pager_last" href="/' + userName + '?page=' + pageCount + '">Last</a>';
-    }
-  }
-
-  /**
-   * Set start number.
-   */
-  if(currentPageNumber < Math.floor(pagerElementCount / 2) + 2){
-    startNumber = 1;
-  }else if(currentPageNumber > pageCount - Math.floor(pagerElementCount / 2)){
-    startNumber = pageCount - (pagerElementCount - 1);
-  }else{
-    startNumber = currentPageNumber - Math.floor(pagerElementCount / 2);
-  }
-
-  /**
-   * Insert pager elements.
-   */
-  for(pagerCounter = startNumber + pagerElementCount - 1; pagerCounter >= startNumber; pagerCounter--){
-    if(parseInt(currentPageNumber) == pagerCounter){
-      anchorElement = document.createElement('span');
-      anchorElement.setAttribute('class', 'disabled');
-      anchorElement.textContent = pagerCounter;
-      pager[0].insertBefore(anchorElement, pager[0].childNodes[3]);
-    }else{
-      anchorElement = document.createElement('a');
-      if(window.location.toString().match(/forked/)){
-        anchorElement.setAttribute('href', '/' + userName + '/forked?page=' + pagerCounter);
-      }else if(window.location.toString().match(/starred/)){
-        anchorElement.setAttribute('href', '/' + userName + '/starred?page=' + pagerCounter);
+  // Insert pager elements
+  for (let pagerIndex = startNumber + pagerElementCount - 1; pagerIndex >= startNumber; pagerIndex--){
+      if(pagerIndex === currentPageNumber){
+          anchorElement = document.createElement('span');
+          anchorElement.setAttribute('class', 'disabled');
       }else{
-        anchorElement.setAttribute('href', '/' + userName + '?page=' + pagerCounter);
+          anchorElement = document.createElement('a');
+          params.set('page', pagerIndex);
+          anchorElement.setAttribute('href', location.pathname + '?' + params);
       }
-      anchorElement.textContent = pagerCounter;
-      pager[0].insertBefore(anchorElement, pager[0].childNodes[3]);
-    }
+      anchorElement.textContent = pagerIndex;
+      pager.insertBefore(anchorElement, pager.childNodes[2]);
   }
+
+  return true;
 }
