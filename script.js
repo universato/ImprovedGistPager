@@ -67,11 +67,11 @@ function addPager(){
                                         currentPageNumber - Math.ceil((maxPagerElementCount - 1) / 2)
                                         )
                               );
-
+  const endNumber = startNumber + pagerElementCount - 1;
 
   // Insert pager elements
   let anchorElement;
-  for (let pagerIndex = startNumber + pagerElementCount - 1; pagerIndex >= startNumber; pagerIndex--){
+  for (let pagerIndex =  endNumber; pagerIndex >= startNumber; pagerIndex--){
       if(pagerIndex === currentPageNumber){
           anchorElement = document.createElement('span');
           anchorElement.setAttribute('class', 'disabled');
