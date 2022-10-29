@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         gist_trun_page_by_left_and
+// @name         improved_gist_pager
 // @namespace    https://greasyfork.org/ja/users/570127
-// @version      0.1.0
+// @version      0.1.1
 // @description  You can move one page by pressing the left and right key. 十字キーの左右で1ページ移動できます。
 // @author       universato
 // @license      MIT
@@ -9,19 +9,12 @@
 // @supportURL   https://twitter.com/universato
 // ==/UserScript==
 
-window.onload = function(){
-  const options = {
-      subtree:       true,
-      childList:     true,
-      characterData: true,
-      attributes:    true
-  };
-  const observer = new MutationObserver(function(_mutations){
-      if(!document.getElementById('pager_last')){ addPager(); }
-  });
-  observer.observe(document.body, options);
+addPager();
 
-  addPager();
+setInterval(intervalKeepPager, 2000);
+function intervalKeepPager(){
+    let pager_last_element = document.getElementById('pager_last');
+    if(!pager_last_element){ addPager(); }
 }
 
 function addPager(){
