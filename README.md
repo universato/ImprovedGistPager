@@ -20,4 +20,4 @@ Unfortunately, personal gists filtered by `secret` and `public` are not easily c
 もともとgistの用意しているぺージャーは`Newer`と`Older`の2つしかないですが、  
 拡張機能を用いることで移動先のページが増えます。
 
-残念ながら、個人のgistで`secret`と`public`のフィルターを通したものは全体の数が簡単に取れないため、ページャが正しく機能せず過剰なページを表示する可能性があります。
+残念ながら、個人のgistを`secret`や`public`でフィルタリングしたものはgist数が簡単に取れないため、ページャが正しく機能せず過剰なページを表示する可能性があります。
