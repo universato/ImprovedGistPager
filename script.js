@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         improved_gist_pager
+// @name         GistPager
 // @name:ja      gistページネーション
 // @namespace    https://greasyfork.org/ja/users/570127
-// @version      0.1.4
+// @version      0.5.0
 // @description  You can move on page by pressing the left and right key.
 // @description:ja ページャーをつけ、十字キーの左右で1ページ移動できます。
 // @author       universato
