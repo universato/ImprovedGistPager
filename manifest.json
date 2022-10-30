@@ -1,15 +1,15 @@
 {
-  "name": "ImprovedGistPager",
-  "version": "0.1.0",
-  "manifest_version": 2,
-  "description": "Improve Gist pager.",
-  "author": "universato",
-  "homepage_url": "https://github.com/universato/",
+  "manifest_version": 3,
+  "name": "Gist Pager",
+  "version": "1.0.0",
+  "description": "Improve gist pager.",
   "icons": {
     "16": "images/16.png",
     "48": "images/48.png",
     "128": "images/128.png"
   },
+  "author": "universato",
+  "homepage_url": "https://github.com/universato/",
   "content_scripts": [{
     "matches": ["https://gist.github.com/*", "http://gist.github.com/*"],
     "run_at": "document_end",
