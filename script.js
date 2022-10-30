@@ -1,8 +1,10 @@
 // ==UserScript==
 // @name         improved_gist_pager
+// @name:ja      gistページネーション
 // @namespace    https://greasyfork.org/ja/users/570127
-// @version      0.1.1
-// @description  You can move one page by pressing the left and right key. 十字キーの左右で1ページ移動できます。
+// @version      0.1.3
+// @description  You can move on page by pressing the left and right key.
+// @description:ja ページャーをつけ、十字キーの左右で1ページ移動できます。
 // @author       universato
 // @license      MIT
 // @match        https://gist.github.com/*
@@ -71,7 +73,7 @@ function addPager(){
 
   // Insert pager elements
   let anchorElement;
-  for (let pagerIndex =  endNumber; pagerIndex >= startNumber; pagerIndex--){
+  for (let pagerIndex = endNumber; pagerIndex >= startNumber; pagerIndex--){
       if(pagerIndex === currentPageNumber){
           anchorElement = document.createElement('span');
           anchorElement.setAttribute('class', 'disabled');
