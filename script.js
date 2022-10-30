@@ -93,7 +93,7 @@ function addPager(){
 (function() {
   document.addEventListener('keydown', function (event) {
       const activeTagName = document.activeElement.tagName;
-      if (['TEXTAREA', 'INPUT'].includes(activeTagName)){ return false; }
+      if(activeTagName.match(/^(TEXTAREA|INPUT)$/)){ return false; }
 
       const pager_elements = document.querySelectorAll('.pagination a');
       for (let element of pager_elements) {
