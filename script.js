@@ -2,7 +2,7 @@
 // @name         improved_gist_pager
 // @name:ja      gistページネーション
 // @namespace    https://greasyfork.org/ja/users/570127
-// @version      0.1.3
+// @version      0.1.4
 // @description  You can move on page by pressing the left and right key.
 // @description:ja ページャーをつけ、十字キーの左右で1ページ移動できます。
 // @author       universato
@@ -23,7 +23,7 @@ function addPager(){
   const maxPagerElementCount = 9; // Odd
 
   const displayCount = 10; // the max number of gits per page
-  const pager = document.getElementsByClassName('pagination')[0];
+  const pager = document.querySelector('.pagination');
   const firstPath = location.pathname.split('/')[1]
   const secondPath = "/" + (location.pathname.split('/')[2] || '')
   const counters = document.getElementsByClassName('Counter');
@@ -95,13 +95,10 @@ function addPager(){
       const activeTagName = document.activeElement.tagName;
       if (['TEXTAREA', 'INPUT'].includes(activeTagName)){ return false; }
 
-      const pager = document.getElementsByClassName('pagination')[0];
-      if(!pager){ return false; }
-      for (let element of pager.children) {
-          if(element.nodeName === 'A') {
-              if(event.key === 'ArrowLeft' && element.innerText === 'Newer'){ element.click(); }
-              if(event.key === 'ArrowRight' && element.innerText === 'Older'){ element.click(); }
-          }
+      const pager_elements = document.querySelectorAll('.pagination a');
+      for (let element of pager_elements) {
+            if(event.key === 'ArrowLeft' && element.innerText === 'Newer'){ element.click(); }
+            if(event.key === 'ArrowRight' && element.innerText === 'Older'){ element.click(); }
       }
   }, false);
 })();
